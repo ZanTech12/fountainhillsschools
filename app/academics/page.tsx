@@ -2,8 +2,8 @@ import Reveal from "@/components/Reveal";
 
 const programs = [
   { name: "Primary School", desc: "Grades 1-5: Foundational learning focused on literacy, numeracy, and creativity.", img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-  { name: "Middle School", desc: "Grades 6-8: Bridging foundational knowledge with critical thinking and specialized subjects.", img: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-  { name: "High School", desc: "Grades 9-12: College preparatory courses, AP classes, and advanced sciences.", img: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+  { name: "Junior School", desc: "Grades 6-8: Bridging foundational knowledge with critical thinking and specialized subjects.", img: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+  { name: "Senior School", desc: "Grades 9-12: College preparatory courses, AP classes, and advanced sciences.", img: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
 ];
 
 export default function Academics() {
