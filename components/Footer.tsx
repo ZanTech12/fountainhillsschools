@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { GraduationCap, MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
 
 // Custom Social SVG Icons (since Lucide removed brand icons)
 const FacebookIcon = () => (
@@ -22,7 +22,6 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="md:col-span-1">
             <div className="flex items-center space-x-2 text-white font-bold text-xl mb-4">
-              <GraduationCap className="h-8 w-8 text-amber-500" />
               <span>Fountain Hills Schools</span>
             </div>
             <p className="text-sm leading-relaxed">Empowering students to create the future. Join our community of excellence and innovation.</p>
@@ -40,10 +39,25 @@ export default function Footer() {
 
           <div>
             <h3 className="text-white font-semibold mb-4 text-lg">Contact</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-start"><MapPin className="h-5 w-5 text-amber-500 mr-3 mt-0.5 flex-shrink-0" /> 123 Education Drive, Knowledge City, 45678</li>
-              <li className="flex items-center"><Phone className="h-5 w-5 text-amber-500 mr-3 flex-shrink-0" /> (555) 123-4567</li>
-              <li className="flex items-center"><Mail className="h-5 w-5 text-amber-500 mr-3 flex-shrink-0" /> info@horizonacademy.edu</li>
+            <ul className="space-y-4 text-sm">
+              <li className="flex items-start">
+                <MapPin className="h-5 w-5 text-amber-500 mr-3 mt-0.5 flex-shrink-0" /> 
+                <span>Umuameshi Emeke Obibiezena, Owerri North, Imo State</span>
+              </li>
+              <li className="flex items-start">
+                <Phone className="h-5 w-5 text-amber-500 mr-3 mt-0.5 flex-shrink-0" />
+                <div className="flex flex-col">
+                  <a href="tel:09022484202" className="hover:text-amber-500 transition-colors">09022484202</a>
+                  <a href="tel:09024483411" className="hover:text-amber-500 transition-colors">09024483411</a>
+                  <a href="tel:08068705523" className="hover:text-amber-500 transition-colors">08068705523</a>
+                </div>
+              </li>
+              <li className="flex items-start">
+                <Mail className="h-5 w-5 text-amber-500 mr-3 mt-0.5 flex-shrink-0" />
+                <a href="mailto:fountainhillssch2000@gmail.com" className="hover:text-amber-500 transition-colors break-all">
+                  fountainhillssch2000@gmail.com
+                </a>
+              </li>
             </ul>
           </div>
 
