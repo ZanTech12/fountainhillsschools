@@ -1,3 +1,7 @@
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+import { Quote } from "lucide-react";
 import Reveal from "@/components/Reveal";
 
 // Custom Social SVG Icons
@@ -15,11 +19,62 @@ const LinkedinIcon = () => (
 );
 
 const staff = [
-  { name: "Dr. Emily Carter", role: "Principal", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-  { name: "Mr. James Wilson", role: "Vice Principal", img: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-  { name: "Ms. Sarah Johnson", role: "Head of Science", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
-  { name: "Mr. David Lee", role: "Athletics Director", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" },
+  { name: "Mrs. Mary Joseph", role: "Proprietress", img: "/images/Proprietress.jpeg", quote: "A school is a building with four walls and tomorrow inside." },
+  { name: "Mr. Joseph Peter Obinna", role: "Director and Founder", img: "/images/Director.jpeg", quote: "The roots of education are bitter, but the fruit is sweet." },
+  { name: "Mrs. Cecilia Maduagwu", role: "Co-founder", img: "/images/co-founder.jpeg", quote: "Education is not the filling of a pail, but the lighting of a fire." },
+  { name: "Mrs. Queen Ononiwu", role: "Principal", img: "/images/Principal.jpeg", quote: "The function of education is to teach one to think intensively and critically." },
+  { name: "Mrs. Chioma Opara", role: "Head Teacher", img: "/images/Headteacher.jpeg", quote: "The beautiful thing about learning is that no one can take it away from you." },
+  { name: "Mrs. Esther Ugochukwu", role: "Asst. Head Teacher", img: "/images/Asstheadteacher.jpeg", quote: "Children must be taught how to think, not what to think." },
+  { name: "Mrs. Immaculate Joshua", role: "Phonics Director", img: "/images/phonicsdirector.jpeg", quote: "Reading is to the mind what exercise is to the body." },
+  { name: "Miss Blessing Osuji", role: "School Bursar", img: "/images/schoolbursar.jpeg", quote: "An investment in education pays the best interest." },
 ];
+
+// Individual Staff Card Component with Slide-to-Reveal Animation
+function StaffCard({ s, index }: { s: any, index: number }) {
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  return (
+    <Reveal key={s.name} delay={index * 0.1}>
+      <div 
+        className="bg-white rounded-2xl shadow-md overflow-hidden text-center group h-full cursor-pointer relative"
+        onClick={() => setIsRevealed(!isRevealed)}
+      >
+        {/* Quote Layer (Hidden underneath) */}
+        <div className="absolute inset-0 bg-blue-900 text-white p-6 flex flex-col items-center justify-center z-0">
+          <Quote className="h-10 w-10 text-amber-500 mb-4" />
+          <p className="text-lg italic font-medium leading-relaxed">"{s.quote}"</p>
+          <p className="mt-6 font-bold text-amber-500">- {s.name}</p>
+          <p className="text-sm text-blue-100">{s.role}</p>
+          <p className="mt-6 text-xs text-gray-400 uppercase tracking-widest">Click to close</p>
+        </div>
+
+        {/* Sliding Content Layer (Image + Text) */}
+        <div className={`relative z-10 transition-transform duration-500 ease-in-out transform ${isRevealed ? '-translate-y-full' : 'translate-y-0'}`}>
+          <div className="overflow-hidden relative aspect-[4/5] w-full bg-gray-100">
+            <Image 
+              src={s.img} 
+              alt={s.name} 
+              fill
+              className="object-cover object-top group-hover:scale-105 transition-transform duration-300" 
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            />
+          </div>
+          <div className="p-6 bg-white">
+            <h3 className="text-xl font-bold text-blue-900">{s.name}</h3>
+            <p className="text-amber-500 mb-4 font-medium mt-1">{s.role}</p>
+            <div className="flex justify-center space-x-4 text-gray-400">
+              <span className="hover:text-blue-900 transition-colors"><FacebookIcon /></span>
+              <span className="hover:text-blue-900 transition-colors"><TwitterIcon /></span>
+              <span className="hover:text-blue-900 transition-colors"><InstagramIcon /></span>
+              <span className="hover:text-blue-900 transition-colors"><LinkedinIcon /></span>
+            </div>
+            <p className="text-gray-400 text-xs mt-4 animate-pulse">Click to reveal quote</p>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
 
 export default function Staff() {
   return (
@@ -29,29 +84,13 @@ export default function Staff() {
         <div className="relative z-10">
           <h1 className="text-5xl font-bold tracking-tight">Meet Our Staff</h1>
           <div className="w-20 h-1 bg-amber-500 mx-auto mt-6 rounded-full"></div>
-          <p className="mt-6 text-lg text-blue-100">Dedicated professionals shaping young minds</p>
+          <p className="mt-6 text-lg text-blue-100">Click on a profile to reveal their educational philosophy</p>
         </div>
       </div>
       
       <div className="max-w-7xl mx-auto px-4 py-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {staff.map((s, i) => (
-          <Reveal key={s.name} delay={i * 0.1}>
-            <div className="bg-white rounded-2xl shadow-md overflow-hidden text-center group h-full">
-              <div className="overflow-hidden">
-                <img src={s.img} alt={s.name} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-blue-900">{s.name}</h3>
-                <p className="text-amber-500 mb-4 font-medium">{s.role}</p>
-                <div className="flex justify-center space-x-4 text-gray-400">
-                  <a href="#" className="hover:text-blue-900 transition-colors"><FacebookIcon /></a>
-                  <a href="#" className="hover:text-blue-900 transition-colors"><TwitterIcon /></a>
-                  <a href="#" className="hover:text-blue-900 transition-colors"><InstagramIcon /></a>
-                  <a href="#" className="hover:text-blue-900 transition-colors"><LinkedinIcon /></a>
-                </div>
-              </div>
-            </div>
-          </Reveal>
+          <StaffCard key={s.name} s={s} index={i} />
         ))}
       </div>
     </div>
