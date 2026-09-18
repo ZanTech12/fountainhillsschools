@@ -114,8 +114,8 @@ export default function Navbar() {
               href="/login" 
               className="whitespace-nowrap block w-full text-center bg-amber-500 text-blue-900 px-4 py-3 rounded-xl text-base font-semibold hover:bg-amber-400 active:scale-95 transition-all duration-200 mt-3"
               onClick={() => setIsOpen(false)}
-            >
-              Login
+            ><a href="https://fountainhillsschools.vercel.app">
+              Login</a>
             </Link>
           </div>
         </div>
