@@ -21,6 +21,9 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
+  // The URL for your external login portal
+  const loginUrl = "https://fountainhills.okispecial.com.ng";
+
   return (
     <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,12 +71,15 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            <Link 
-              href="/login" 
+            {/* Desktop Login Button - External Link */}
+            <a 
+              href={loginUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
               className="whitespace-nowrap ml-4 bg-amber-500 text-blue-900 px-6 py-2.5 rounded-full text-sm font-semibold shadow-md shadow-amber-500/20 hover:bg-amber-400 hover:shadow-lg hover:shadow-amber-500/30 active:scale-90 transition-all duration-200"
             >
               Login
-            </Link>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -110,13 +116,16 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            <Link 
-              href="/login" 
+            {/* Mobile Login Button - External Link */}
+            <a 
+              href={loginUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
               className="whitespace-nowrap block w-full text-center bg-amber-500 text-blue-900 px-4 py-3 rounded-xl text-base font-semibold hover:bg-amber-400 active:scale-95 transition-all duration-200 mt-3"
               onClick={() => setIsOpen(false)}
-            ><a href="https://fountainhills.okispecial.com.ng">
-              Login</a>
-            </Link>
+            >
+              Login
+            </a>
           </div>
         </div>
       )}
