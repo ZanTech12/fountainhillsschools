@@ -12,7 +12,7 @@ export default function Home() {
       <section className="py-24 bg-gray-50 relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-blue-900 tracking-tight">Why Choose Horizon?</h2>
+            <h2 className="text-4xl font-bold text-blue-900 tracking-tight">Why Choose FHHS?</h2>
             <div className="w-20 h-1 bg-amber-500 mx-auto mt-4 rounded-full"></div>
             <p className="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">We provide a comprehensive education that prepares students for the challenges of tomorrow.</p>
           </Reveal>
