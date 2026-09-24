@@ -75,11 +75,12 @@ export default function ResultCheckerPage() {
 
     const printRef = useRef(null);
 
-    // ✅ NEW: Fetch public site info on component mount
+    // ✅ NEW: Fetch public site info on component mount using schoolCode
     useEffect(() => {
         const fetchSiteInfo = async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/public/site-info`);
+                // Pass the schoolCode to the API so it knows exactly which school to fetch
+                const response = await fetch(`${API_BASE_URL}/public/site-info?schoolCode=${formData.schoolCode}`);
                 const data = await response.json();
                 if (data.success && data.data) {
                     setSiteInfo(data.data);
@@ -89,7 +90,7 @@ export default function ResultCheckerPage() {
             }
         };
         fetchSiteInfo();
-    }, []);
+    }, [formData.schoolCode]); // Re-run if schoolCode ever changes
 
     // ✅ NEW: Determine logo URL dynamically
     const logoUrl = useMemo(() => {
@@ -265,9 +266,14 @@ export default function ResultCheckerPage() {
                                             {siteInfo?.schoolMotto && (
                                                 <p className="text-[9px] italic text-gray-500 mt-0.5">"{siteInfo.schoolMotto}"</p>
                                             )}
+                                            
+                                            {/* ✅ Added Fallback for Address */}
                                             <p className="text-[10px] text-gray-600 mt-1">
-                                                {siteInfo ? `${siteInfo.address || ''}${siteInfo.state ? ', ' + siteInfo.state : ''}${siteInfo.country ? ', ' + siteInfo.country : ''}`.trim() : '123 Education Avenue, Lagos, Nigeria'}
+                                                {siteInfo ? 
+                                                    `${siteInfo.address || ''}${siteInfo.state ? ', ' + siteInfo.state : ''}${siteInfo.country ? ', ' + siteInfo.country : ''}`.replace(/^,\s*/, '').trim() || 'Address not set'
+                                                    : '123 Education Avenue, Lagos, Nigeria'}
                                             </p>
+                                            
                                             <h2 className="text-xs font-bold uppercase tracking-widest text-[#c9952b] mt-2">STUDENT ACADEMIC REPORT CARD</h2>
                                             <div className="inline-flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-full px-4 py-1 mt-2 text-[11px] text-gray-600">
                                                 <span>Term: <strong className="text-[#1a365d]">{resultData.term?.name || 'N/A'}</strong></span>
@@ -475,11 +481,19 @@ export default function ResultCheckerPage() {
                                         </div>
                                     )}
                                     
-                                    {/* ✅ NEW: Dynamic School Contact Info */}
+                                    {/* ✅ NEW: Dynamic School Contact Info with Fallbacks */}
                                     <div className="mt-3 text-center text-[9px] text-gray-500 flex flex-wrap justify-center gap-x-3 gap-y-1">
-                                        {siteInfo?.phoneNumber && <span>Tel: {siteInfo.phoneNumber}</span>}
+                                        {siteInfo?.phoneNumber ? (
+                                            <span>Tel: {siteInfo.phoneNumber}</span>
+                                        ) : (
+                                            <span>Tel: 01-234-5678</span>
+                                        )}
                                         {siteInfo?.email && <span>Email: {siteInfo.email}</span>}
-                                        {siteInfo?.website && <span>Web: {siteInfo.website}</span>}
+                                        {siteInfo?.website ? (
+                                            <span>Web: {siteInfo.website}</span>
+                                        ) : (
+                                            <span>Web: www.fountainhills.com</span>
+                                        )}
                                     </div>
                                 </footer>
 
