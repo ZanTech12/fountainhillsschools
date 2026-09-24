@@ -382,15 +382,21 @@ export default function ResultCheckerPage() {
                                     <div className="grid grid-cols-3 gap-2">
                                         <div className="flex flex-col items-center gap-1 p-2 bg-gray-50 border border-gray-200 rounded-lg text-center">
                                             <span className="text-[9px] font-semibold uppercase text-gray-500">No. of Times School Opened</span>
-                                            <span className="text-xl font-extrabold text-[#1a365d]" style={{ fontFamily: 'Courier New, monospace' }}>––––</span>
+                                            <span className="text-xl font-extrabold text-[#1a365d]" style={{ fontFamily: 'Courier New, monospace' }}>
+                                                {resultData.attendance?.timesOpen ?? '––––'}
+                                            </span>
                                         </div>
                                         <div className="flex flex-col items-center gap-1 p-2 bg-gray-50 border border-gray-200 rounded-lg text-center">
                                             <span className="text-[9px] font-semibold uppercase text-gray-500">No. of Times Present</span>
-                                            <span className="text-xl font-extrabold text-green-600" style={{ fontFamily: 'Courier New, monospace' }}>––––</span>
+                                            <span className="text-xl font-extrabold text-green-600" style={{ fontFamily: 'Courier New, monospace' }}>
+                                                {resultData.attendance?.timesPresent ?? '––––'}
+                                            </span>
                                         </div>
                                         <div className="flex flex-col items-center gap-1 p-2 bg-gray-50 border border-gray-200 rounded-lg text-center">
                                             <span className="text-[9px] font-semibold uppercase text-gray-500">No. of Times Absent</span>
-                                            <span className="text-xl font-extrabold text-red-600" style={{ fontFamily: 'Courier New, monospace' }}>––––</span>
+                                            <span className="text-xl font-extrabold text-red-600" style={{ fontFamily: 'Courier New, monospace' }}>
+                                                {resultData.attendance?.timesAbsent ?? '––––'}
+                                            </span>
                                         </div>
                                     </div>
                                 </section>
