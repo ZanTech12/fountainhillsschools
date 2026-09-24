@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Reveal from "@/components/Reveal";
 import { Loader2, Download, ArrowLeft, Printer, User } from 'lucide-react';
@@ -69,8 +69,40 @@ export default function ResultCheckerPage() {
     const [isGenerating, setIsGenerating] = useState(false);
     const [error, setError] = useState('');
     const [resultData, setResultData] = useState(null);
+    
+    // ✅ NEW: State for public school information
+    const [siteInfo, setSiteInfo] = useState(null);
 
     const printRef = useRef(null);
+
+    // ✅ NEW: Fetch public site info on component mount
+    useEffect(() => {
+        const fetchSiteInfo = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/public/site-info`);
+                const data = await response.json();
+                if (data.success && data.data) {
+                    setSiteInfo(data.data);
+                }
+            } catch (err) {
+                console.error("Failed to fetch site info:", err);
+            }
+        };
+        fetchSiteInfo();
+    }, []);
+
+    // ✅ NEW: Determine logo URL dynamically
+    const logoUrl = useMemo(() => {
+        if (siteInfo?.schoolLogo?.url) {
+            const u = siteInfo.schoolLogo.url;
+            return u.startsWith('http') ? u : `${API_BASE_URL}${u.startsWith('/') ? '' : '/'}${u}`;
+        }
+        if (typeof siteInfo?.schoolLogo === 'string') {
+            const u = siteInfo.schoolLogo;
+            return u.startsWith('http') ? u : `${API_BASE_URL}${u.startsWith('/') ? '' : '/'}${u}`;
+        }
+        return "/logo.jpeg"; // Fallback
+    }, [siteInfo]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -222,13 +254,20 @@ export default function ResultCheckerPage() {
                                     <div className="flex justify-between items-start gap-4">
                                         {/* LEFT - School Logo */}
                                         <div className="w-16 h-16 flex-shrink-0 pt-1">
-                                            <Image src="/logo.jpeg" alt="School Logo" width={64} height={64} className="rounded-full border-2 border-[#c9952b] shadow-sm object-contain" />
+                                            <img src={logoUrl} alt="School Logo" width={64} height={64} className="rounded-full border-2 border-[#c9952b] shadow-sm object-contain w-16 h-16" />
                                         </div>
 
                                         {/* CENTER - School Info */}
                                         <div className="flex-1 text-center min-w-0">
-                                            <h1 className="text-lg font-bold uppercase tracking-wide text-[#1a365d]" style={{ fontFamily: 'Georgia, serif' }}>FOUNTAIN HILLS SCHOOLS</h1>
-                                            <p className="text-[10px] text-gray-600 mt-1">123 Education Avenue, Lagos, Nigeria</p>
+                                            <h1 className="text-lg font-bold uppercase tracking-wide text-[#1a365d]" style={{ fontFamily: 'Georgia, serif' }}>
+                                                {siteInfo?.schoolName?.toUpperCase() || 'FOUNTAIN HILLS SCHOOLS'}
+                                            </h1>
+                                            {siteInfo?.schoolMotto && (
+                                                <p className="text-[9px] italic text-gray-500 mt-0.5">"{siteInfo.schoolMotto}"</p>
+                                            )}
+                                            <p className="text-[10px] text-gray-600 mt-1">
+                                                {siteInfo ? `${siteInfo.address || ''}${siteInfo.state ? ', ' + siteInfo.state : ''}${siteInfo.country ? ', ' + siteInfo.country : ''}`.trim() : '123 Education Avenue, Lagos, Nigeria'}
+                                            </p>
                                             <h2 className="text-xs font-bold uppercase tracking-widest text-[#c9952b] mt-2">STUDENT ACADEMIC REPORT CARD</h2>
                                             <div className="inline-flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-full px-4 py-1 mt-2 text-[11px] text-gray-600">
                                                 <span>Term: <strong className="text-[#1a365d]">{resultData.term?.name || 'N/A'}</strong></span>
@@ -435,6 +474,13 @@ export default function ResultCheckerPage() {
                                             <span className="text-sm font-extrabold tracking-wide">{formatDate(resultData.term.nextTermBegins)}</span>
                                         </div>
                                     )}
+                                    
+                                    {/* ✅ NEW: Dynamic School Contact Info */}
+                                    <div className="mt-3 text-center text-[9px] text-gray-500 flex flex-wrap justify-center gap-x-3 gap-y-1">
+                                        {siteInfo?.phoneNumber && <span>Tel: {siteInfo.phoneNumber}</span>}
+                                        {siteInfo?.email && <span>Email: {siteInfo.email}</span>}
+                                        {siteInfo?.website && <span>Web: {siteInfo.website}</span>}
+                                    </div>
                                 </footer>
 
                             </div>
