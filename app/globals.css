@@ -2,6 +2,9 @@
 
 html {
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll; /* ✅ Forces scrollbar to always be visible, stopping the zoom/shift effect */
 }
 
 body {
@@ -9,6 +12,8 @@ body {
   color: #1f2937; /* gray-800 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 100%;
+  overflow-x: hidden; /* ✅ Protects the fixed Navbar from stretching */
 }
 
 /* Custom scrollbar for a more premium feel */
@@ -24,4 +29,23 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #1e40af; /* blue-800 */
+}
+/* Print only the report card */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #report-card-printable, #report-card-printable * {
+        visibility: visible;
+    }
+    #report-card-printable {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+    }
 }
