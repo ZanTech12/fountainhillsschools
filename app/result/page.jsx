@@ -80,7 +80,10 @@ export default function ResultCheckerPage() {
         const fetchSiteInfo = async () => {
             try {
                 // Pass the schoolCode to the API so it knows exactly which school to fetch
-                const response = await fetch(`${API_BASE_URL}/public/site-info?schoolCode=${formData.schoolCode}`);
+                // ✅ ADDED cache: 'no-store' to prevent Next.js from showing old cached data
+                const response = await fetch(`${API_BASE_URL}/public/site-info?schoolCode=${formData.schoolCode}`, {
+                    cache: 'no-store'
+                });
                 const data = await response.json();
                 if (data.success && data.data) {
                     setSiteInfo(data.data);
