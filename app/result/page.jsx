@@ -192,6 +192,19 @@ export default function ResultCheckerPage() {
     const studentPhotoUrl = resultData ? buildStudentPhotoUrl(resultData.student) : null;
     const studentFullName = resultData ? `${resultData.student?.firstName ?? ''} ${resultData.student?.lastName ?? ''}`.trim() : '';
 
+    // ✅ NEW: Attendance Calculation Logic (Ported from working ReportCardsPrintView)
+    const getAbsentDays = (present, total) => {
+        if (present === '' || present === undefined || present === null ||
+            total === '' || total === undefined || total === null || total === 0) return '';
+        const absent = total - present;
+        return absent > 0 ? absent : 0;
+    };
+
+    const attendanceData = resultData?.attendance || resultData?.student?.attendance || {};
+    const timesSchoolOpen = attendanceData?.timesOpen ?? '';
+    const timesPresent = attendanceData?.timesPresent ?? '';
+    const timesAbsent = getAbsentDays(timesPresent, timesSchoolOpen);
+
     return (
         <div className="w-full overflow-x-hidden">
             {/* HERO HEADER */}
@@ -383,19 +396,19 @@ export default function ResultCheckerPage() {
                                         <div className="flex flex-col items-center gap-1 p-2 bg-gray-50 border border-gray-200 rounded-lg text-center">
                                             <span className="text-[9px] font-semibold uppercase text-gray-500">No. of Times School Opened</span>
                                             <span className="text-xl font-extrabold text-[#1a365d]" style={{ fontFamily: 'Courier New, monospace' }}>
-                                                {resultData.attendance?.timesOpen ?? '––––'}
+                                                {timesSchoolOpen !== '' ? timesSchoolOpen : '––––'}
                                             </span>
                                         </div>
                                         <div className="flex flex-col items-center gap-1 p-2 bg-gray-50 border border-gray-200 rounded-lg text-center">
                                             <span className="text-[9px] font-semibold uppercase text-gray-500">No. of Times Present</span>
                                             <span className="text-xl font-extrabold text-green-600" style={{ fontFamily: 'Courier New, monospace' }}>
-                                                {resultData.attendance?.timesPresent ?? '––––'}
+                                                {timesPresent !== '' ? timesPresent : '––––'}
                                             </span>
                                         </div>
                                         <div className="flex flex-col items-center gap-1 p-2 bg-gray-50 border border-gray-200 rounded-lg text-center">
                                             <span className="text-[9px] font-semibold uppercase text-gray-500">No. of Times Absent</span>
                                             <span className="text-xl font-extrabold text-red-600" style={{ fontFamily: 'Courier New, monospace' }}>
-                                                {resultData.attendance?.timesAbsent ?? '––––'}
+                                                {timesAbsent !== '' ? timesAbsent : '––––'}
                                             </span>
                                         </div>
                                     </div>
